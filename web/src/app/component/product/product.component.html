@@ -1,0 +1,23 @@
+<h1 class="color">Product</h1>
+<input class="form-control" id="filterText" placeholder="Type to search..." [(ngModel)]="filterText">
+<table class="table table-striped table-hover">
+    <thead>
+      <tr>
+        <th>ID</th>
+        <th >Product Name</th>
+        <th>Category Id</th>
+        <th>Unit in Price</th>
+        <th>Units in Stock</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let product of products | productSearch:filterText">
+        <th>{{product.id}}</th>
+        <th>{{product.productName}}</th>
+        <th>{{product.categoryId}}</th>
+        <th>{{product.unitPrice | currency}}</th>
+        <th>{{product.unitsInStock}}</th>
+        <td><button (click)="addToCard(product)" class="btn btn-success">Sepete Ekle</button></td>
+      </tr>
+    </tbody>
+  </table>
