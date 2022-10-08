@@ -1,0 +1,115 @@
+package kodlamaio.northwind.api.controller;
+
+import java.util.List;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
+import kodlamaio.northwind.business.abstracts.ProductService;
+import kodlamaio.northwind.core.utilities.results.DataResult;
+import kodlamaio.northwind.core.utilities.results.Result;
+import kodlamaio.northwind.entities.concretes.Product;
+import kodlamaio.northwind.entities.dtos.ProductWithCategoryDto;
+
+@CrossOrigin(origins = "http://localhost:4242")
+@RestController
+@RequestMapping("/api/products")
+public class ProductsController {
+	
+	private ProductService productService;
+	
+	@Autowired
+	public ProductsController(ProductService productService) {
+		this.productService = productService;
+	}
+	
+	@GetMapping("/getall")
+	public DataResult<List<Product>> getAll() throws InterruptedException{
+		return this.productService.getAll();			
+	}
+	
+	@PostMapping("/add")
+	public Result add(@RequestBody Product product) {
+		return this.productService.add(product);
+	}
+	
+	@GetMapping("/setStock/{id}/{quantity}")
+	public Result setStock(@PathVariable int id, @PathVariable int quantity) {
+		return this.productService.setQuantity(id, quantity);
+	}
+	@GetMapping("/getbyCategoryid/{id}")
+	public DataResult<List<Product>> getByCategoryId(@PathVariable int id){
+		return this.productService.getByCategoryId(id);
+	}
+	@GetMapping("/getbyid/{id}")
+	public DataResult<Product> getById(@PathVariable int id){
+		return this.productService.getById(id);
+	}
+	
+	@PostMapping("/deleteProduct")
+	public Result deleteProduct(@RequestBody int id) {
+		return this.productService.deleteProduct(id);
+	}
+	
+//	@GetMapping("/getByProductName")
+//	public DataResult<Product> getByProductName(@RequestParam String productName) {
+//		return this.productService.getByProductName(productName);
+//	}
+//	
+//	@GetMapping("/getByProductNameAndCategory_CategoryId")
+//	public DataResult<Product> getByProductNameAndCategory_CategoryId
+//	(@RequestParam String productName, @RequestParam int categoryId) {
+//		return this.productService.getByProductNameAndCategory_CategoryId(productName, categoryId);
+//	}
+//	
+//	@GetMapping("/getByProductNameOrCategory_CategoryId")
+//	public DataResult<List<Product>> getByProductNameOrCategory_CategoryId
+//	(@RequestParam String productName, @RequestParam  int categoryId) {
+//		return this.productService.getByProductNameOrCategory_CategoryId(productName, categoryId);
+//	}
+//	
+//	@GetMapping("/getByCategory_CategoryIdIn")
+//	public DataResult<List<Product>> getByCategory_CategoryIdIn(@RequestParam List<Integer> categories) {
+//		return this.productService.getByCategory_CategoryIdIn(categories);
+//	}
+//	
+//	@GetMapping("/getByCategory_CategoryId/{id}")
+//	public DataResult<List<Product>> getByCategory_CategoryId(@PathVariable(value = "id") int categoryId) {
+//		return this.productService.getByCategory_CategoryId(categoryId);
+//	}
+//	
+//	@GetMapping("/getByProductNameContains")
+//	public DataResult<List<Product>> getByProductNameContains(@RequestParam String productName) {
+//		return this.productService.getByProductNameContains(productName);
+//	}
+//	
+//	@GetMapping("/getByProductNameStartsWith")
+//	public DataResult<List<Product>> getByProductNameStartsWith(@RequestParam String productName) {
+//		return this.productService.getByProductNameStartsWith(productName);
+//	}
+//	
+//	@GetMapping("/getByNameAndCategory")
+//	public DataResult<Product> getByNameAndCategory(@RequestParam String productName, @RequestParam int categoryId) {
+//		return this.productService.getByProductNameAndCategory_CategoryId(productName, categoryId);
+//	}
+	
+	@GetMapping("/getAllByPage")
+	public DataResult<List<Product>> getAll(@RequestParam int pageNo, @RequestParam int pageSize) {
+		return this.productService.getAll(pageNo, pageSize);
+	}
+	
+	@GetMapping("/getAllSorted")
+	public DataResult<List<Product>> getAllSorted() {
+		return this.productService.getAllSorted();
+	}
+	
+//	@GetMapping("/getProductWithCategoryDetails")
+//	public DataResult<List<ProductWithCategoryDto>> getProductWithCategoryDetails(){
+//		return this.productService.getProductWithCategoryDetails();
+//	}
+}
